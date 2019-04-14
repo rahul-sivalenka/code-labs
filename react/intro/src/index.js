@@ -83,10 +83,10 @@ class Board extends React.Component {
         let winner;
 
         for(let i = 0, ln = winningCombinations.length; i < ln; i++) {
-            const win = winningCombinations[i];
+            const [a, b, c] = winningCombinations[i];
 
-            if(squares[win[0]] === squares[win[1]] && squares[win[1]] === squares[win[2]]) {
-                winner = squares[win[0]];
+            if(squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+                winner = squares[a];
                 break;
             }
         }
@@ -94,9 +94,23 @@ class Board extends React.Component {
         return winner;
     }
 
+    resetGame() {
+        this.setState({
+            squares: Array(9).fill(null),
+            xIsNext: true,
+            winner: null
+        });
+    }
+
     render() {
         const { xIsNext, winner } = this.state;
         const status = winner ? `Player ${winner} wins!` : `Next Player: ${xIsNext ? 'X' : 'O'}`;
+        let resetBtn;
+        
+        if (winner) {
+            resetBtn = <button onClick={() => this.resetGame()}>Restart</button>;
+        }
+
         return (
             <div>
                 <div className="status">{status}</div>
@@ -114,6 +128,9 @@ class Board extends React.Component {
                     <div>{this.renderSquare(6)}</div>
                     <div>{this.renderSquare(7)}</div>
                     <div>{this.renderSquare(8)}</div>
+                </div>
+                <div>
+                    {resetBtn}
                 </div>
             </div>
         );
