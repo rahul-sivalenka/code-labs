@@ -49,3 +49,8 @@ body {
     margin-left: 20px;
   }
   
+  .reset-btn {
+    background: #fff;
+    border: 1px solid;
+    margin-top: 10px;
+  }

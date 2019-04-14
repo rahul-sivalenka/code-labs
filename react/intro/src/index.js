@@ -108,7 +108,7 @@ class Board extends React.Component {
         let resetBtn;
         
         if (winner) {
-            resetBtn = <button onClick={() => this.resetGame()}>Restart</button>;
+            resetBtn = <button className="reset-btn" onClick={() => this.resetGame()}>Restart</button>;
         }
 
         return (
