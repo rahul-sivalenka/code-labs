@@ -45,19 +45,61 @@ class Board extends React.Component {
     }
 
     handleClick(i) {
+        const { xIsNext, winner } = this.state;
         const squares = this.state.squares.slice();
-        const { xIsNext } = this.state;
+        
+        if (winner || squares[i]) {
+            // Do Nothing
+            return;
+        }
+
         squares[i] = xIsNext ? 'X' : 'O';
         this.setState({
             squares,
-            xIsNext: !xIsNext
+            xIsNext: !xIsNext,
+            winner: this.calculateWinner(squares)
         });
     }
 
+    calculateWinner(squares) {
+        /*
+        [ 
+            0 1 2
+            3 4 5
+            6 7 8 
+        ]
+        */
+        const winningCombinations = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+        ];
+
+        let winner;
+
+        for(let i = 0, ln = winningCombinations.length; i < ln; i++) {
+            const win = winningCombinations[i];
+
+            if(squares[win[0]] === squares[win[1]] && squares[win[1]] === squares[win[2]]) {
+                winner = squares[win[0]];
+                break;
+            }
+        }
+
+        return winner;
+    }
+
     render() {
+        const { xIsNext, winner } = this.state;
+        const status = winner ? `Player ${winner} wins!` : `Next Player: ${xIsNext ? 'X' : 'O'}`;
         return (
             <div>
-                <div className="status">Next Player: {this.state.xIsNext ? 'X': 'O'}</div>
+                <div className="status">{status}</div>
                 <div className="board-row">
                     <div>{this.renderSquare(0)}</div>
                     <div>{this.renderSquare(1)}</div>
