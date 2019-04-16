@@ -1,1 +1,3 @@
-console.log('Test');
+import { store } from './store';
+
+console.log(store.getState());
